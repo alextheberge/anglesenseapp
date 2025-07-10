@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AngleSense - Precise Angle Measurement for iOS</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Vue.js 3 -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <!-- Custom Styles & Theme Configuration -->
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      /* Define theme colors based on the logo */
+      .theme-bg-primary {
+        background-color: #2563eb;
+      } /* A strong blue */
+      .theme-bg-secondary {
+        background-color: #f97316;
+      } /* A vibrant orange */
+      .theme-text-primary {
+        color: #2563eb;
+      }
+      .theme-text-secondary {
+        color: #f97316;
+      }
+      .theme-border-secondary {
+        border-color: #f97316;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 text-gray-800">
+    <div id="app" class="antialiased">
+      <!-- Header -->
+      <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav
+          class="container mx-auto px-6 py-3 flex justify-between items-center"
+        >
+          <div class="flex items-center space-x-3">
+            <!-- IMPORTANT: Replace this placeholder URL with the actual URL of your logo -->
+            <img
+              :src="logoUrl"
+              alt="AngleSense Logo"
+              class="h-10 w-10 rounded-lg"
+            />
+            <span class="text-2xl font-bold text-gray-800">{{ appName }}</span>
+          </div>
+          <div class="flex items-center space-x-4">
+            <a
+              href="#features"
+              class="text-gray-600 hover:theme-text-primary font-medium transition-colors"
+              >Features</a
+            >
+            <a
+              href="#mailing-list"
+              class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-transform duration-300 ease-in-out transform hover:scale-105"
+            >
+              Get Updates
+            </a>
+          </div>
+        </nav>
+      </header>
+
+      <main>
+        <!-- Hero Section -->
+        <section class="theme-bg-primary text-white py-20 sm:py-28">
+          <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4">
+              Measure Angles with Precision
+            </h1>
+            <p class="text-lg md:text-xl text-blue-200 max-w-3xl mx-auto mb-8">
+              The essential tool for carpenters, engineers, and DIY enthusiasts.
+              AngleSense turns your iOS device into a highly accurate digital
+              protractor.
+            </p>
+            <div class="flex justify-center items-center space-x-4">
+              <a
+                href="#"
+                class="bg-white text-blue-600 font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 flex items-center space-x-2"
+              >
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    d="M10.729 2.155A1 1 0 0010 2H4a1 1 0 00-1 1v14a1 1 0 001 1h12a1 1 0 001-1V9.271a1 1 0 00-.22-.632l-6.051-6.484zM10 4.414L14.586 9H10V4.414zM4 18V4h5v6h6v8H4z"
+                  ></path>
+                </svg>
+                <span>Download on the App Store</span>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Introduction Section -->
+        <section id="description" class="py-16 sm:py-24 bg-white">
+          <div class="container mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto">
+              <h2 class="text-3xl md:text-4xl font-bold mb-4">
+                What is {{ appName }}?
+              </h2>
+              <p class="text-lg text-gray-600 leading-relaxed">
+                {{ description }}
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="py-16 sm:py-24 bg-gray-50">
+          <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+              <h2 class="text-3xl md:text-4xl font-bold">Powerful Features</h2>
+              <p class="text-lg text-gray-600 mt-2">
+                Everything you need for accurate measurements.
+              </p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div
+                v-for="feature in features"
+                :key="feature.title"
+                class="bg-white p-8 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300"
+              >
+                <div
+                  class="flex items-center justify-center h-16 w-16 rounded-full theme-bg-primary text-white mb-6"
+                >
+                  <svg
+                    class="w-8 h-8"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    v-html="feature.icon"
+                  ></svg>
+                </div>
+                <h3 class="text-xl font-bold mb-3">{{ feature.title }}</h3>
+                <p class="text-gray-600">{{ feature.text }}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Permissions Section -->
+        <section id="permissions" class="py-16 sm:py-24 bg-white">
+          <div class="container mx-auto px-6 max-w-4xl">
+            <div class="text-center mb-12">
+              <h2 class="text-3xl md:text-4xl font-bold">
+                Permissions & Privacy
+              </h2>
+              <p class="text-lg text-gray-600 mt-2">
+                We only ask for what's necessary to function.
+              </p>
+            </div>
+            <div class="space-y-6">
+              <div
+                v-for="permission in permissions"
+                :key="permission.title"
+                class="bg-gray-50 border-l-4 theme-border-secondary rounded-r-lg p-6 flex items-start space-x-4"
+              >
+                <div class="flex-shrink-0 text-orange-500">
+                  <svg
+                    class="w-7 h-7"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    v-html="permission.icon"
+                  ></svg>
+                </div>
+                <div>
+                  <h3 class="text-xl font-semibold">{{ permission.title }}</h3>
+                  <p class="text-gray-600 mt-1">{{ permission.text }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Mailing List Signup -->
+        <section id="mailing-list" class="theme-bg-primary">
+          <div class="container mx-auto px-6 py-16 text-center">
+            <h2 class="text-3xl font-bold text-white">Stay Updated!</h2>
+            <p class="text-blue-200 mt-2 mb-6 max-w-xl mx-auto">
+              Join our mailing list to get the latest news about new features
+              and updates.
+            </p>
+            <form
+              @submit.prevent="subscribeToMailingList"
+              class="max-w-md mx-auto"
+            >
+              <div class="flex items-center">
+                <input
+                  type="email"
+                  v-model="newEmail"
+                  placeholder="your.email@example.com"
+                  required
+                  class="w-full px-4 py-3 rounded-l-lg border-0 focus:ring-2 focus:ring-orange-500 text-gray-800"
+                />
+                <button
+                  type="submit"
+                  class="theme-bg-secondary hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-r-lg transition-colors"
+                >
+                  Subscribe
+                </button>
+              </div>
+              <p
+                v-if="formMessage"
+                class="mt-4 text-white"
+                :class="{'text-green-300': isSuccess, 'text-red-300': !isSuccess}"
+              >
+                {{ formMessage }}
+              </p>
+            </form>
+          </div>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-6 text-center">
+          <p>
+            &copy; {{ new Date().getFullYear() }} {{ appName }}. All rights
+            reserved.
+          </p>
+          <p class="text-sm text-gray-400 mt-2">Designed for iOS.</p>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+      // Import Firebase modules
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        addDoc,
+      } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+      import {
+        getAuth,
+        signInAnonymously,
+        onAuthStateChanged,
+        signInWithCustomToken,
+      } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+      // IMPORTANT: Replace with your actual Firebase project configuration
+      // This configuration is provided in your Firebase project settings.
+      const firebaseConfig =
+        typeof __firebase_config !== "undefined"
+          ? JSON.parse(__firebase_config)
+          : {
+              apiKey: "AIzaSyDNW4KLU_brQDruZbvrBrbfDrkkOxH6-eA",
+              authDomain: "grounded-plane-258112.firebaseapp.com",
+              projectId: "grounded-plane-258112",
+              storageBucket: "grounded-plane-258112.firebasestorage.app",
+              messagingSenderId: "1061916214859",
+              appId: "1:1061916214859:web:3074ca6edf7ee3c2f16fce",
+              measurementId: "G-H6Z38T07QY",
+            };
+
+      // Get App ID for Firestore path
+      const appId =
+        typeof __app_id !== "undefined" ? __app_id : "default-app-id";
+
+      // Initialize Firebase
+      const firebaseApp = initializeApp(firebaseConfig);
+      const db = getFirestore(firebaseApp);
+      const auth = getAuth(firebaseApp);
+
+      // Sign in user anonymously or with custom token for Firestore access
+      onAuthStateChanged(auth, (user) => {
+        if (!user) {
+          if (
+            typeof __initial_auth_token !== "undefined" &&
+            __initial_auth_token
+          ) {
+            signInWithCustomToken(auth, __initial_auth_token).catch((error) => {
+              console.error("Custom token sign-in error:", error);
+              signInAnonymously(auth); // Fallback to anonymous
+            });
+          } else {
+            signInAnonymously(auth).catch((error) => {
+              console.error("Anonymous sign-in error:", error);
+            });
+          }
+        }
+      });
+
+      // Vue Application
+      const { createApp, ref } = Vue;
+
+      createApp({
+        setup() {
+          // --- Data Properties ---
+          const appName = ref("AngleSense");
+          const logoUrl = ref(
+            "https://placehold.co/128x128/2563EB/FFFFFF?text=A&font=inter"
+          ); // Replace with your logo URL
+          const description = ref(
+            "AngleSense is an iOS application designed to accurately measure angles using the device’s sensors. It provides users with intuitive controls and real-time feedback to assist in various tasks requiring angle measurements, such as carpentry, engineering, or DIY projects."
+          );
+
+          const features = ref([
+            {
+              title: "Precise Measurement",
+              text: "Leverages advanced device sensors to provide highly accurate angle readings.",
+              icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M12 6a6 6 0 100 12 6 6 0 000-12z"></path>',
+            },
+            {
+              title: "Real-time Display",
+              text: "Get instant feedback with a clear, easy-to-read digital display that updates as you move.",
+              icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>',
+            },
+            {
+              title: "User-Friendly Interface",
+              text: "Designed for simplicity and efficiency, allowing you to get measurements quickly without hassle.",
+              icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>',
+            },
+            {
+              title: "Multiple Modes",
+              text: "Switch between different measurement modes to suit the specific needs of your task.",
+              icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>',
+            },
+            {
+              title: "Lock Functionality",
+              text: "Lock the current measurement on screen, making it easy to reference or compare angles.",
+              icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>',
+            },
+            {
+              title: "Calibration Settings",
+              text: "Fine-tune the app with sensitivity and calibration adjustments for professional-grade accuracy.",
+              icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 16v-2m8-8h-2M4 12H2m15.364 6.364l-1.414-1.414M6.05 6.05l-1.414-1.414m12.728 0l-1.414 1.414M6.05 17.95l-1.414 1.414m12.728 0l-1.414-1.414"></path>',
+            },
+          ]);
+
+          const permissions = ref([
+            {
+              title: "Motion & Fitness",
+              text: "Required to access the gyroscope and accelerometer, which are the core device sensors used for angle detection.",
+              icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>',
+            },
+            {
+              title: "Camera (Optional)",
+              text: "May be used in future updates for features like augmented reality overlays or capturing photos with angle data.",
+              icon: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>',
+            },
+          ]);
+
+          const newEmail = ref("");
+          const formMessage = ref("");
+          const isSuccess = ref(false);
+
+          // --- Methods ---
+          const subscribeToMailingList = async () => {
+            if (!newEmail.value || !auth.currentUser) {
+              formMessage.value = "Please enter a valid email address.";
+              isSuccess.value = false;
+              return;
+            }
+
+            formMessage.value = "Subscribing...";
+            isSuccess.value = false;
+
+            try {
+              // Add a new document with a generated id to the 'mailing_list' collection.
+              // This path ensures data is stored publicly for this specific app instance.
+              const docRef = await addDoc(
+                collection(db, `artifacts/${appId}/public/data/mailing_list`),
+                {
+                  email: newEmail.value,
+                  subscribedAt: new Date(),
+                }
+              );
+              console.log("Document written with ID: ", docRef.id);
+
+              formMessage.value = "Thank you for subscribing!";
+              isSuccess.value = true;
+              newEmail.value = ""; // Clear the input
+            } catch (e) {
+              console.error("Error adding document: ", e);
+              formMessage.value = "An error occurred. Please try again.";
+              isSuccess.value = false;
+            }
+          };
+
+          return {
+            appName,
+            logoUrl,
+            description,
+            features,
+            permissions,
+            newEmail,
+            formMessage,
+            isSuccess,
+            subscribeToMailingList,
+          };
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
