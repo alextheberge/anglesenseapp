@@ -142,65 +142,8 @@
 
 </div>
 
-<!-- Firebase SDK -->
+<!-- Vue Application Script -->
 <script type="module">
-  // Import Firebase modules
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-  import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-
-  // IMPORTANT: Replace with your actual Firebase project configuration
-  // This configuration is provided in your Firebase project settings.
-  const firebaseConfig = typeof __firebase_config !== 'undefined'
-          ? JSON.parse(__firebase_config)
-          : {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
-          };
-
-  // Get App ID for Firestore path
-  const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-
-  // Initialize Firebase
-  const firebaseApp = initializeApp(firebaseConfig);
-  const db = getFirestore(firebaseApp);
-  const auth = getAuth(firebaseApp);
-
-  // Sign in user anonymously or with custom token for Firestore access
-  onAuthStateChanged(auth, user => {
-    // This logic runs when the component mounts and whenever the auth state changes.
-    // We only need to attempt sign-in if there's no current user.
-    if (!user) {
-      if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-        // A custom token is provided, attempt to sign in with it.
-        signInWithCustomToken(auth, __initial_auth_token).catch(error => {
-          // This can happen if the token is invalid or expired. This is an expected state
-          // for users who are not logged into the parent application.
-          console.log("Custom token sign-in failed, falling back to anonymous sign-in. Error:", error.code);
-          signInAnonymously(auth).catch(anonError => {
-            // This would be an unexpected error.
-            console.error("Critical: Anonymous sign-in failed after custom token failure.", anonError);
-          });
-        });
-      } else {
-        // If no custom token is available, proceed with anonymous sign-in.
-        console.log("No custom token found, attempting anonymous sign-in.");
-        signInAnonymously(auth).catch(error => {
-          console.error("Critical: Anonymous sign-in failed.", error);
-        });
-      }
-    } else {
-      // A user is already signed in.
-      console.log(`User is signed in. UID: ${user.uid}, Is Anonymous: ${user.isAnonymous}`);
-    }
-  });
-
-
-  // Vue Application
   const { createApp, ref } = Vue;
 
   createApp({
@@ -229,33 +172,18 @@
       const isSuccess = ref(false);
 
       // --- Methods ---
-      const subscribeToMailingList = async () => {
-        if (!newEmail.value || !auth.currentUser) {
+      const subscribeToMailingList = () => {
+        if (!newEmail.value) {
           formMessage.value = "Please enter a valid email address.";
           isSuccess.value = false;
           return;
         }
 
-        formMessage.value = 'Subscribing...';
-        isSuccess.value = false;
-
-        try {
-          // Add a new document with a generated id to the 'mailing_list' collection.
-          // This path ensures data is stored publicly for this specific app instance.
-          const docRef = await addDoc(collection(db, `artifacts/${appId}/public/data/mailing_list`), {
-            email: newEmail.value,
-            subscribedAt: new Date()
-          });
-          console.log("Document written with ID: ", docRef.id);
-
-          formMessage.value = "Thank you for subscribing!";
-          isSuccess.value = true;
-          newEmail.value = ''; // Clear the input
-        } catch (e) {
-          console.error("Error adding document: ", e);
-          formMessage.value = "An error occurred. Please try again.";
-          isSuccess.value = false;
-        }
+        // Since this is a static site, we just show a success message.
+        // In a real app, you would send this to a backend service.
+        formMessage.value = "Thank you for subscribing!";
+        isSuccess.value = true;
+        newEmail.value = ''; // Clear the input
       };
 
       return {
