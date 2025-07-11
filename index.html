@@ -37,8 +37,8 @@
   <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
     <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
       <div class="flex items-center space-x-3">
-        <!-- IMPORTANT: Replace this placeholder URL with the actual URL of your logo -->
-        <img :src="public/Assets/AnglesenseLogoIcon.png" alt="AngleSense Logo" class="h-10 w-10 rounded-lg">
+        <!-- The :src attribute correctly points to the logoUrl variable defined in the Vue script -->
+        <img :src="logoUrl" alt="AngleSense Logo" class="h-10 w-10 rounded-lg">
         <span class="text-2xl font-bold text-gray-800">{{ appName }}</span>
       </div>
       <div class="flex items-center space-x-4">
@@ -150,7 +150,9 @@
     setup() {
       // --- Data Properties ---
       const appName = ref('AngleSense');
-      const logoUrl = ref('https://placehold.co/128x128/2563EB/FFFFFF?text=A&font=inter'); // Replace with your logo URL
+      // FIX: Changed the placeholder to a relative path for the logo.
+      // This assumes 'AnglesenseLogoIcon.jpg' is in the same folder as your HTML file.
+      const logoUrl = ref('./Public/Assets/AnglesenseLogoIcon.png');
       const description = ref('AngleSense is an iOS application designed to accurately measure angles using the device’s sensors. It provides users with intuitive controls and real-time feedback to assist in various tasks requiring angle measurements, such as carpentry, engineering, or DIY projects.');
 
       const features = ref([
